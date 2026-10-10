@@ -11,10 +11,8 @@ const dir = path.join(__dirname, '..', 'icons');
 const svg = fs.readFileSync(path.join(dir, 'icono.svg'), 'utf8');
 // Sin esquinas redondeadas: Android recorta los "maskable" y iOS redondea solo.
 const square = svg.replace(' clip-path="url(#r)"', '');
-// "maskable": todo lo importante dentro del círculo central del 80 %.
-const maskable = square
-  .replace('<g fill="#116411">', '<g transform="translate(256 256) scale(.78) translate(-256 -256)"><g fill="#116411">')
-  .replace('</g>\n  </g>\n</svg>', '</g></g>\n  </g>\n</svg>');
+// "maskable": lo importante ya cae dentro del círculo central del 80 %, así que vale el cuadrado.
+const maskable = square;
 
 const jobs = [
   ['icono-192.png', svg, 192],
