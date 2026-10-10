@@ -51,7 +51,7 @@ const STR = {
       agg: 'ExchangeRate-API (agregador, no oficial)',
     },
     themes: {
-      auto: 'Automático (claro u oscuro según el sistema)',
+      auto: 'Automático: grafito o claro, según el sistema',
       verde: 'Verde',
       azul: 'Azul',
       morado: 'Morado',
@@ -102,7 +102,7 @@ const STR = {
       agg: 'ExchangeRate-API (aggregator, unofficial)',
     },
     themes: {
-      auto: 'Automatic (light or dark, as the system)',
+      auto: 'Automatic: graphite or light, following the system',
       verde: 'Green',
       azul: 'Blue',
       morado: 'Purple',

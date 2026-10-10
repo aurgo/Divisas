@@ -10,7 +10,8 @@
 /* ---------- temas ----------
  * Cada tema es un bloque de variables. El atributo data-theme puede ir en
  * <html> (el tema activo) o en cualquier elemento (las muestras del selector),
- * así los colores viven sólo aquí. */
+ * así los colores viven sólo aquí. Sin tema guardado se usa el azul
+ * (index.html); "auto" es el grafito, o el claro si el sistema está en claro. */
 :root, [data-theme="verde"] {
   --panel: #4e851e;
   --bg: #002e00;
@@ -34,7 +35,7 @@
 [data-theme="morado"] { --panel: #7048b8; --bg: #1b0838; --key: #3f2378; --key-down: #502e95; --clear: #e0891a; --clear-down: #ee9a2c; --close-bg: #5c5468; }
 [data-theme="granate"] { --panel: #a8323e; --bg: #2b0509; --key: #6a1620; --key-down: #821c28; --clear: #e39a16; --clear-down: #f0ab2a; --close-bg: #66524f; }
 [data-theme="turquesa"] { --panel: #1a8f86; --bg: #002825; --key: #0b5953; --key-down: #0f6e67; --clear: #e0603a; --clear-down: #ee734d; --close-bg: #4e5c5a; }
-[data-theme="grafito"] { --panel: #4a5059; --bg: #15171a; --key: #2a2e33; --key-down: #3a3f46; --clear: #d9822b; --clear-down: #e8933c; --close-bg: #555a61; }
+[data-theme="grafito"], [data-theme="auto"] { --panel: #4a5059; --bg: #15171a; --key: #2a2e33; --key-down: #3a3f46; --clear: #d9822b; --clear-down: #e8933c; --close-bg: #555a61; }
 [data-theme="claro"] {
   --panel: #d7e4c8; --bg: #f3f6ef; --key: #fff; --key-down: #e3edd8; --key-ring: rgba(16, 36, 15, .1);
   --clear: #e46a1c; --clear-down: #f07c30;

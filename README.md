@@ -83,8 +83,9 @@ más de un 5 % del agregador: sería un error al leer la página, no un tipo.
 - **Tocar el resultado** lo copia.
 - **Menú ☰**: actualizar tipos, **tema**, instalar, copiar, intercambiar,
   ubicación, y el tipo del par con su fuente y fecha.
-- **Temas**: verde (el original), azul, morado, granate, turquesa, grafito,
-  claro, y automático (claro u oscuro según el sistema).
+- **Temas**: azul (el de entrada), verde (el del original), morado, granate,
+  turquesa, grafito, claro, y automático: grafito si el sistema está en
+  oscuro y claro si está en claro.
 - El idioma sigue al del teléfono: español si está en español, inglés en
   cualquier otro caso. Los números usan el formato local (7.444.122,50).
 

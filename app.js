@@ -9,7 +9,7 @@ import {
 import { NAMES_EN } from './currencies.js';
 import { LANG, LOCALE, t, currencyName, currencyKeywords } from './i18n.js';
 
-const THEMES = ['verde', 'azul', 'morado', 'granate', 'turquesa', 'grafito', 'claro', 'auto'];
+const THEMES = ['azul', 'verde', 'morado', 'granate', 'turquesa', 'grafito', 'claro', 'auto'];
 const DEFAULT_RECENTS = ['TWD', 'EUR', 'USD', 'SGD', 'JPY', 'CAD', 'AED', 'GBP', 'CHF', 'HKD'];
 const LS_STATE = 'divisas-state';
 const LS_RATES = 'divisas-rates';
@@ -256,12 +256,12 @@ curTo.addEventListener('click', () => openPicker('to'));
 
 function currentTheme() {
   const th = document.documentElement.dataset.theme;
-  return THEMES.includes(th) ? th : 'verde';
+  return THEMES.includes(th) ? th : 'azul';
 }
 function syncThemeColor() {
   // La barra de estado del móvil (y la ventana de la app instalada) toma el color del panel.
   const panel = getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', panel || '#4e851e');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', panel || '#2f6db3');
 }
 function setTheme(id) {
   document.documentElement.dataset.theme = id;
@@ -280,7 +280,7 @@ function renderThemes() {
     const sw = document.createElement('span');
     sw.className = 'swatch';
     sw.dataset.theme = id; // la muestra toma los colores de su propio tema (styles.css)
-    if (id === 'auto') sw.style.background = 'linear-gradient(135deg, #4e851e 0 50%, #d7e4c8 50% 100%)';
+    if (id === 'auto') sw.style.background = 'linear-gradient(135deg, #4a5059 0 50%, #d7e4c8 50% 100%)';
     const label = document.createElement('span');
     label.className = 'label';
     label.textContent = t('themes.' + id);
