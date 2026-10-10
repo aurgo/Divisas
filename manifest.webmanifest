@@ -8,7 +8,7 @@
   "id": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#001a33",
+  "background_color": "#2f6db3",
   "theme_color": "#2f6db3",
   "categories": ["finance", "travel", "utilities"],
   "icons": [

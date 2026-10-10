@@ -448,15 +448,19 @@ const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platfo
 if (isIos && !standalone()) menu.querySelector('[data-act="install-ios"]').hidden = false;
 
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-  navigator.serviceWorker.register('sw.js').then((reg) => {
-    reg.addEventListener('updatefound', () => {
-      const sw = reg.installing;
-      if (!sw) return;
-      sw.addEventListener('statechange', () => {
-        if (sw.state === 'installed' && navigator.serviceWorker.controller) toast(t('newVersion'), 4000);
-      });
-    });
-  }).catch(() => { /* sin service worker: la app funciona igual, sólo que no sin conexión */ });
+  // La app se sirve desde la caché, así que tras publicar una versión nueva lo
+  // primero que se abre es la vieja. En cuanto la nueva queda instalada (toma el
+  // control sola: skipWaiting + clients.claim) se recarga una vez para usarla ya,
+  // y no en la siguiente apertura. En la primera instalación no hay versión vieja
+  // que sustituir, y no se recarga.
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloading) return;
+    reloading = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register('sw.js').catch(() => { /* sin service worker: la app funciona igual, sólo que no sin conexión */ });
 }
 
 /* ---------------- arranque ---------------- */

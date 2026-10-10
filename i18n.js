@@ -43,7 +43,6 @@ const STR = {
     offlineNow: 'Ahora mismo no hay conexión.',
     checked: 'Tipos publicados el {d}',
     themeSet: 'Tema: {name}',
-    newVersion: 'Hay una versión nueva: se usará la próxima vez que abras la app',
     sources: {
       ecb: 'Banco Central Europeo',
       bde: 'Banco de España (tipos del BCE)',
@@ -94,7 +93,6 @@ const STR = {
     offlineNow: 'You are offline right now.',
     checked: 'Rates published {d}',
     themeSet: 'Theme: {name}',
-    newVersion: 'A new version is ready: it will be used next time you open the app',
     sources: {
       ecb: 'European Central Bank',
       bde: 'Bank of Spain (ECB rates)',
