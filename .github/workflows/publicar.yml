@@ -1,0 +1,84 @@
+# Publica la app en GitHub Pages con los tipos de cambio del día.
+#
+# - En cada push a main: pruebas, tipos recién descargados y publicación.
+# - Dos veces cada día laborable: lo mismo, y además guarda rates.json en el
+#   repositorio (queda un histórico de los tipos, y la actividad evita que
+#   GitHub desactive el horario tras 60 días sin cambios).
+#
+#   08:25 UTC = 16:25 en Taipéi: el Banco Central de Taiwán ya ha publicado el
+#               cierre NTD/USD de las 16:00.
+#   15:40 UTC = el BCE publica hacia las 16:00 hora de Fráncfort (14:00 o
+#               15:00 UTC según el horario de verano).
+#
+# Pages tiene que estar en "GitHub Actions" (Settings → Pages → Source).
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '25 8 * * 1-5'
+    - cron: '40 15 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Pruebas
+        run: node --test test/*.test.mjs
+
+      # Si las fuentes fallan, rates.json se queda como estaba y la app se publica igual.
+      - name: Tipos de cambio
+        id: rates
+        continue-on-error: true
+        run: node tools/update-rates.mjs
+
+      - name: Guardar los tipos en el repositorio
+        if: github.event_name != 'push'
+        run: |
+          if git diff --quiet -- rates.json; then echo "Sin cambios en los tipos."; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898283+github-actions[bot]@users.noreply.github.com'
+          git add rates.json
+          git commit -m "Tipos de cambio del $(date -u +%F)"
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
+
+      - name: Preparar el sitio
+        run: node tools/build-site.mjs
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v5
+
+      # Un fallo de todas las fuentes en una ejecución programada se marca en rojo
+      # (y GitHub avisa por correo), aunque la app ya se haya publicado con los tipos anteriores.
+      - name: Avisar si no se han podido actualizar los tipos
+        if: steps.rates.outcome == 'failure' && github.event_name == 'schedule'
+        run: |
+          echo "::error::No se han podido descargar los tipos de cambio de ninguna fuente."
+          exit 1

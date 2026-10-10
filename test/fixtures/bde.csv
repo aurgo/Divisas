@@ -1,0 +1,12 @@
+"CÓDIGO DE LA SERIE",DTCCBCEUSDEUR.B,DTCCBCEJPYEUR.B,DTCCBCEGBPEUR.B,DTCCFMIXDREUR.B
+"NÚMERO SECUENCIAL",573234,573220,573214,573236
+"ALIAS DE LA SERIE","TC_1_1.1","TC_1_1.2","TC_1_1.4","TC_1_1.9"
+"DESCRIPCIÓN DE LA SERIE","Tipos de cambio. Dólares estadounidenses por euro (USD/EUR)","Tipos de cambio. Yenes japoneses por euro (JPY/EUR)","Tipos de cambio. Libras esterlinas por euro (GBP/EUR)","Tipos de cambio. DEG por euro (XDR/EUR)"
+"DESCRIPCIÓN DE LAS UNIDADES","Dólares de Estados Unidos por Euro","Yenes japoneses por Euro","Libras esterlinas por Euro","SDR (Derechos especiales de giro) por Euro"
+"FRECUENCIA","LABORABLE","LABORABLE","LABORABLE","LABORABLE"
+"05 OCT 2026",1.1204,177.2800,0.84720,0.8282
+"06 OCT 2026",1.1269,178.1500,0.84880,0.8311
+"07 OCT 2026",1.1177,176.8500,0.84645,0.8270
+"08 OCT 2026",1.1186,177.0500,0.84698,"_"
+"FUENTE","BANCO CENTRAL EUROPEO","BANCO CENTRAL EUROPEO","BANCO CENTRAL EUROPEO","Tipo de cambio del FMI con el dólar EEUU multiplicado por el tipo de cambio oficial del euro, obtenido por el Depto. Operaciones"
+"NOTAS","","","",""

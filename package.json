@@ -1,0 +1,11 @@
+{
+  "name": "divisas",
+  "private": true,
+  "type": "module",
+  "description": "Conversor de divisas (PWA) con los tipos oficiales del BCE y del Banco Central de Taiwán",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "rates": "node tools/update-rates.mjs",
+    "build": "node tools/build-site.mjs"
+  }
+}

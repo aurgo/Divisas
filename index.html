@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#4e851e">
+<meta name="description" content="Conversor de divisas con los tipos oficiales del BCE y del Banco Central de Taiwán. Funciona sin conexión.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Divisas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icono-apple-180.png">
+<link rel="preload" href="fonts/exo2.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<title>Divisas</title>
+<script>
+  // El tema guardado se aplica antes de pintar nada, para que no parpadee el verde.
+  try { document.documentElement.dataset.theme = localStorage.getItem('divisas-theme') || 'verde'; } catch (e) { /* sin almacenamiento */ }
+</script>
+</head>
+<body>
+<div id="app">
+  <section id="panel">
+    <button id="locate" class="icon-btn" data-i18n-label="useLocation">
+      <svg viewBox="0 0 35 35"><circle cx="17.5" cy="17.5" r="11.9" stroke-width="3.75"/><path d="M17.5 0v6M17.5 29v6M0 17.5h6M29 17.5h6" stroke-width="3.5"/></svg>
+    </button>
+    <button id="menuBtn" class="icon-btn" data-i18n-label="menu">
+      <svg viewBox="0 0 39 25"><rect y="0" width="39" height="4" rx=".5"/><rect y="10.5" width="39" height="4" rx=".5"/><rect y="21" width="39" height="4" rx=".5"/></svg>
+    </button>
+    <div class="row" id="rowFrom">
+      <div class="amount" id="amtFrom">0</div>
+      <button class="cur" id="curFrom" data-i18n-label="changeCurrency"><span>TWD</span><svg viewBox="0 0 20 11"><path d="M1.5 1.5 10 9.5 18.5 1.5"/></svg></button>
+    </div>
+  </section>
+
+  <button id="swap" data-i18n-label="swap">
+    <svg viewBox="-14 -20 28 40">
+      <path d="M-9.19 7.71A12 12 0 0 1 0-12"/><path d="M-.6-18 5.4-12-.6-6"/>
+      <path d="M9.19-7.71A12 12 0 0 1 0 12"/><path d="M.6 18-5.4 12 .6 6"/>
+    </svg>
+  </button>
+
+  <div class="row" id="rowTo">
+    <div class="amount" id="amtTo">0</div>
+    <button class="cur" id="curTo" data-i18n-label="changeCurrency"><span>EUR</span><svg viewBox="0 0 20 11"><path d="M1.5 1.5 10 9.5 18.5 1.5"/></svg></button>
+  </div>
+
+  <div id="keypad">
+    <button class="key" data-k="1"><span>1</span></button>
+    <button class="key" data-k="2"><span>2</span></button>
+    <button class="key" data-k="3"><span>3</span></button>
+    <button class="key" data-k="4"><span>4</span></button>
+    <button class="key" data-k="5"><span>5</span></button>
+    <button class="key" data-k="6"><span>6</span></button>
+    <button class="key" data-k="7"><span>7</span></button>
+    <button class="key" data-k="8"><span>8</span></button>
+    <button class="key" data-k="9"><span>9</span></button>
+    <button class="key clear" data-k="C" data-i18n-label="clear"><span>C</span></button>
+    <button class="key" data-k="0"><span>0</span></button>
+    <button class="key" data-k="." data-i18n-label="decimal"><span>.</span></button>
+  </div>
+
+  <div id="picker" class="overlay" hidden>
+    <div class="ov-head">
+      <input id="search" type="search" data-i18n-placeholder="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+      <button class="close" data-i18n-label="close"><svg viewBox="0 0 19 19"><path d="M2 2l15 15M17 2 2 17"/></svg></button>
+    </div>
+    <div class="ov-body">
+      <div id="list"></div>
+      <div id="hint" class="hint"></div>
+    </div>
+  </div>
+
+  <div id="menu" class="overlay" hidden>
+    <div class="ov-head">
+      <div class="title" data-i18n="menu"></div>
+      <button class="close" data-i18n-label="close"><svg viewBox="0 0 19 19"><path d="M2 2l15 15M17 2 2 17"/></svg></button>
+    </div>
+    <div class="ov-body">
+      <button class="item" data-act="refresh"><svg class="icon" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4.5h-4.5"/></svg><span class="label" data-i18n="refresh"></span></button>
+      <button class="item" data-act="theme"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.8-1.9 0-.5-.2-.9-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4C21 6.5 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7" r="1.2"/><circle cx="15" cy="7.5" r="1.2"/></svg><span class="label"><span data-i18n="theme"></span><small id="themeName"></small></span></button>
+      <button class="item" data-act="install" hidden><svg class="icon" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="label" data-i18n="install"></span></button>
+      <button class="item" data-act="install-ios" hidden><svg class="icon" viewBox="0 0 24 24"><path d="M12 15V3M8 7l4-4 4 4M6 11H5v10h14V11h-1"/></svg><span class="label" data-i18n="installIos"></span></button>
+      <button class="item" data-act="copy"><svg class="icon" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span class="label" data-i18n="copy"></span></button>
+      <button class="item" data-act="swap"><svg class="icon" viewBox="0 0 24 24"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg><span class="label" data-i18n="swap"></span></button>
+      <button class="item" data-act="locate"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg><span class="label" data-i18n="useLocation"></span></button>
+      <div id="info" class="info"></div>
+    </div>
+  </div>
+
+  <div id="themes" class="overlay" hidden>
+    <div class="ov-head">
+      <div class="title" data-i18n="theme"></div>
+      <button class="close" data-i18n-label="close"><svg viewBox="0 0 19 19"><path d="M2 2l15 15M17 2 2 17"/></svg></button>
+    </div>
+    <div class="ov-body"><div id="themeList"></div></div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "Divisas",
+  "short_name": "Divisas",
+  "description": "Conversor de divisas con los tipos oficiales del BCE y del Banco Central de Taiwán. Funciona sin conexión.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#002e00",
+  "theme_color": "#4e851e",
+  "categories": ["finance", "travel", "utilities"],
+  "icons": [
+    { "src": "icons/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
